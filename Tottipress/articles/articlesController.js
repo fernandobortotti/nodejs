@@ -61,7 +61,6 @@ router.get("/admin/articles/edit/:id", (req, res) => {
     var id = req.params.id;
     Article.findByPk(id).then(article => {
         if(article != undefined){
-
             Category.findAll().then(categories => {
                 res.render("admin/articles/edit",{categories: categories, article: article})
             });
@@ -73,6 +72,63 @@ router.get("/admin/articles/edit/:id", (req, res) => {
     });
 });
 
+
+// rota para guardar o artigo atualizado
+router.post("/articles/update", (req, res) => {
+    var id = req.body.id;
+    var title = req.body.title;
+    var body = req.body.body;
+    var category = req.body.category;
+
+    Article.update({title: title, body: body, categoryId: category, slug: slugify(title)}, {
+        where: {
+            id:id
+        }
+    }).then(() => {
+        res.redirect("/admin/articles")
+    }).catch(err => {
+        red.redirect("/")
+    })
+})
+
+router.get("/articles/page/:num", (req, res) => {
+    var page = req.params.num;
+    var offset = 0;
+    var max = 4;
+        
+    if (isNaN(page) || page == 1){
+        offset = 0;
+    }else{
+        offset = parseInt(page)* max;
+    }
+
+    Article.findAndCountAll({
+        limit: max,
+        offset: offset,
+        order:[
+            ['id','DESC']
+        ],
+    }).then(articles => {
+
+        var next; 
+        if (offset + max >= articles.count ){
+            next = false;
+        }else{
+            next = true;
+        }
+
+        var result = {
+            page: parseInt(page),
+            next: next,
+            articles: articles,
+
+        }
+
+        Category.findAll().then(categories => {
+            res.render("admin/articles/page",{result, categories: categories})
+        });
+    })
+});
 
 
 
