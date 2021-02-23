@@ -19,13 +19,13 @@
             <div class="col col-12">
 
                <% if(result.page >= 2) {%>
-                <a style="float: left;"  href="/articles/page/<%= result.page-1%>"> <<< Página anterior</a>
+                <a style="float: left;"  href="/articles/page/<%= result.page-1%>"> <<< anterior</a>
                 <% }else if (result.page == 1 ) {%>
                     <a style="float: left;"  href="/ %>"> << home >> </a>
                     <% } %>
 
                 <% if(result.next){%>
-                <a style="float: right;" href="/articles/page/<%= result.page+1%>">Próxima página >>></a>
+                <a style="float: right;" href="/articles/page/<%= result.page+1%>">próxima >>></a>
                 <% } %>
                 <br>
             </div>

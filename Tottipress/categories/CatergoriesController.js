@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Category = require("./Category");
 const slugify = require("slugify");
-const { route } = require("../articles/articlesController");
+const { route } = require("../articles/ArticlesController");
 
 router.get("/admin/categories/new", (req, res)=> {
     res.render("admin/categories/new")

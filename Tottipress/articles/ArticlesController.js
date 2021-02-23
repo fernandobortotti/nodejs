@@ -99,7 +99,7 @@ router.get("/articles/page/:num", (req, res) => {
     if (isNaN(page) || page == 1){
         offset = 0;
     }else{
-        offset = parseInt(page)* max;
+        offset = (parseInt(page)-1)* max;
     }
 
     Article.findAndCountAll({
